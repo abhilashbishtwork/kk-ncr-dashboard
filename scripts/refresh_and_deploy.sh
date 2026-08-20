@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-REPO_DIR="/Users/SushmaS/kk-pune-dashboard"
+REPO_DIR="/Users/SushmaS/kk-ncr-dashboard"
 cd "$REPO_DIR"
 
 set -a
