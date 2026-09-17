@@ -6,11 +6,26 @@ data on 2026-08-20 (39 stores, exact list given by the user) — every
 online name and its `pos_name` (dine-in counterpart, where one exists)
 was cross-checked directly against `orders`.
 
+Extended 2026-09-17 after a full re-scan of `orders` for every NCR-
+prefixed store_name turned up real, sustained order history the
+original 39-store list missed entirely: DLF Mall of India and
+Promenade Mall/Vasant Kunj both had an unlinked dine-in POS stream
+(moved Online -> Offline); Pacific Tagore Garden Mall and GIP Mall are
+new launches (GIP Mall is dine-in-only so far, no online counterpart —
+its `up_name` is set to its own `pos_name` since ClickHouse has no
+other identifier for it); Rajouri Garden, Okhla Kitchen, Karol Bagh,
+Golf Course, Indirapuram, and Sector 73 (Noida) were live, real stores
+(640-5,145 orders each) never captured in the original list. A handful
+of near-zero-order rows from the same scan (e.g. `GGN KK ODC GGN`,
+early-tag duplicates of already-tracked stores) were excluded as
+onboarding artifacts, same pattern as the KK 90d dashboard's exclusion
+list.
+
 Category is a simplified 2-way split for v1, pending the real Curefoods-
 owned vs. franchise ownership split (which Pune has as Cfi/Rebel/Offline
 and NCR doesn't have yet):
-  - "Offline": has a real POS/dine-in order stream in ClickHouse (13 stores)
-  - "Online": online-only, no POS counterpart found (26 stores)
+  - "Offline": has a real POS/dine-in order stream in ClickHouse
+  - "Online": online-only, no POS counterpart found
 This is NOT an ownership split — it only reflects whether the store has a
 dine-in channel. Replace with a real ownership categorization once
 available, the same way Pune's Cfi/Rebel split came from the business.
@@ -21,8 +36,8 @@ CATEGORIES = ("Online", "Offline")
 STORE_ROSTER = [
     {"up_name": "GGN KK Ardee Mall Online", "pos_name": "GGN KK ARDEE MALL POS", "display_name": "Ardee Mall", "category": "Offline"},
     {"up_name": "GGN KK Ambience Mall Online", "pos_name": "GGN KK Ambience Mall POS", "display_name": "Ambience Mall", "category": "Offline"},
-    {"up_name": "DEL KK Promenade Mall , Vasant Kunj Online", "pos_name": None, "display_name": "Promenade Mall, Vasant Kunj", "category": "Online"},
-    {"up_name": "Noida KK DLF Mall of India Online", "pos_name": None, "display_name": "DLF Mall of India", "category": "Online"},
+    {"up_name": "DEL KK Promenade Mall , Vasant Kunj Online", "pos_name": "DEL KK Promenade Mall POS", "display_name": "Promenade Mall, Vasant Kunj", "category": "Offline"},
+    {"up_name": "Noida KK DLF Mall of India Online", "pos_name": "NOI KK DLF Mall of India POS", "display_name": "DLF Mall of India", "category": "Offline"},
     {"up_name": "DEL KK Nexus Select CityWalk Mall Online", "pos_name": "DEL KK Nexus Select CityWalk Mall POS", "display_name": "Nexus Select CityWalk Mall", "category": "Offline"},
     {"up_name": "DEL KK Worldmark 1 (Aerocity) Online", "pos_name": "DEL KK Worldmark 1 (Aerocity) POS", "display_name": "Worldmark 1 (Aerocity)", "category": "Offline"},
     {"up_name": "GGN KK Worldmark Sec - 65 Online", "pos_name": "GGN KK Worldmark Sec - 65 POS", "display_name": "Worldmark Sec-65", "category": "Offline"},
@@ -58,6 +73,14 @@ STORE_ROSTER = [
     {"up_name": "GGN KK KLJ Square", "pos_name": "GGN KK KLJ Square Pos", "display_name": "KLJ Square", "category": "Offline"},
     {"up_name": "GGN KK Elan Miracle", "pos_name": "GGN KK Elan Miracle Pos", "display_name": "Elan Miracle", "category": "Offline"},
     {"up_name": "DEL KK Omaxe Chandni Chowk", "pos_name": "DEL KK Omaxe Chandni Chowk Pos", "display_name": "Omaxe Chandni Chowk", "category": "Offline"},
+    {"up_name": "DEL KK Pacific Tagore Garden Mall", "pos_name": "DEL KK Pacific Tagore Garden Mall Pos", "display_name": "Pacific Tagore Garden Mall", "category": "Offline"},
+    {"up_name": "NOI KK GIP Mall Pos", "pos_name": "NOI KK GIP Mall Pos", "display_name": "GIP Mall", "category": "Offline"},
+    {"up_name": "DEL KK Rajouri Garden Online", "pos_name": None, "display_name": "Rajouri Garden", "category": "Online"},
+    {"up_name": "DEL KK Okhla Kitchen Online", "pos_name": None, "display_name": "Okhla Kitchen", "category": "Online"},
+    {"up_name": "DEL KK Karol Bagh Online", "pos_name": "DEL KK Blue Pearl Mall (Karol Bagh) POS", "display_name": "Karol Bagh", "category": "Offline"},
+    {"up_name": "DEL KK Golf Course Online", "pos_name": None, "display_name": "Golf Course", "category": "Online"},
+    {"up_name": "GZB KK Indirapuram Online", "pos_name": None, "display_name": "Indirapuram", "category": "Online"},
+    {"up_name": "NOI KK Sector 73 Online", "pos_name": None, "display_name": "Sector 73", "category": "Online"},
 ]
 
 
