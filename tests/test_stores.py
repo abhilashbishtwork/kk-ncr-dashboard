@@ -10,7 +10,7 @@ from build.stores import (
 
 
 def test_thirty_nine_stores():
-    assert len(STORE_ROSTER) == 47
+    assert len(STORE_ROSTER) == 42
 
 
 def test_up_names_unique():
@@ -39,7 +39,7 @@ def test_category_counts_match_spec():
     counts = {}
     for s in STORE_ROSTER:
         counts[s["category"]] = counts.get(s["category"], 0) + 1
-    assert counts == {"Offline": 18, "Online": 29}
+    assert counts == {"Offline": 18, "Online": 24}
 
 
 def test_pos_names_only_for_offline_category_stores():

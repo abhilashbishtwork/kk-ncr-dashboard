@@ -68,7 +68,7 @@ def test_mtd_only_sums_current_month():
 
 def test_all_thirteen_stores_present():
     payload = build_dashboard_payload([], [], [], [], date(2026, 8, 18))
-    assert len(payload["stores"]) == 47
+    assert len(payload["stores"]) == 42
 
 
 def test_ops_computed_cancellation_and_kpt():

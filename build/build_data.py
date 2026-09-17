@@ -38,10 +38,10 @@ def run(query_runner, today):
     ops_metric_rows = query_runner(build_ops_metrics_query(stores, start_date, today))
     launch_date_rows = query_runner(build_launch_date_query(stores))
 
-    # All 47 NCR stores have confirmed order history in ClickHouse
-    # (verified 2026-09-17 roster extension), so the full count is the
-    # right floor here.
-    if not is_pull_valid(online_rows, dine_in_rows, launch_date_rows, expected_min_stores=47):
+    # All 42 NCR stores have confirmed, currently-active order history in
+    # ClickHouse (verified 2026-09-17 roster extension), so the full count
+    # is the right floor here.
+    if not is_pull_valid(online_rows, dine_in_rows, launch_date_rows, expected_min_stores=42):
         print("ClickHouse pull failed sanity check — keeping existing data.json", file=sys.stderr)
         return False
 

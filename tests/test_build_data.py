@@ -33,7 +33,7 @@ def test_run_writes_data_json_on_valid_pull(tmp_path, monkeypatch):
     assert result is True
     written = json.loads(fake_path.read_text())
     assert "generated_at_ist" in written
-    assert len(written["stores"]) == 47
+    assert len(written["stores"]) == 42
 
 
 def test_run_aborts_and_keeps_existing_file_on_bad_pull(tmp_path, monkeypatch):

@@ -13,13 +13,27 @@ Promenade Mall/Vasant Kunj both had an unlinked dine-in POS stream
 (moved Online -> Offline); Pacific Tagore Garden Mall and GIP Mall are
 new launches (GIP Mall is dine-in-only so far, no online counterpart —
 its `up_name` is set to its own `pos_name` since ClickHouse has no
-other identifier for it); Rajouri Garden, Okhla Kitchen, Karol Bagh,
-Golf Course, Indirapuram, and Sector 73 (Noida) were live, real stores
-(640-5,145 orders each) never captured in the original list. A handful
-of near-zero-order rows from the same scan (e.g. `GGN KK ODC GGN`,
-early-tag duplicates of already-tracked stores) were excluded as
-onboarding artifacts, same pattern as the KK 90d dashboard's exclusion
-list.
+other identifier for it); Karol Bagh had a real, currently-live dine-in
+POS stream (`DEL KK Blue Pearl Mall (Karol Bagh) POS`, active through
+today) even though its online channel (`DEL KK Karol Bagh Online`)
+went dormant in May 2026.
+
+**Rajouri Garden, Okhla Kitchen, Golf Course, Indirapuram, and Sector 73
+(Noida) were considered and explicitly excluded** — each has real
+historical order volume (457-5,145 orders) but every one of them
+stopped taking orders on any tracked channel (swiggy/zomato/ownly/POS)
+3-5+ months before this scan (last real order: Rajouri Garden
+2026-04-13, Sector 73 2026-05-10, Indirapuram 2026-05-16, Okhla Kitchen
+2026-05-19, Golf Course 2026-06-16) — they are closed/dormant, not
+live-but-missing stores, so including them would just produce
+permanent false "zero orders" alerts on an operational dashboard.
+(First pass at this scan mistakenly added all six based on lifetime
+order volume alone, without checking recency — caught immediately by
+spot-checking each new store's actual daily data before shipping, and
+reverted for the five dormant ones.) A handful of near-zero-order rows
+from the same scan (e.g. `GGN KK ODC GGN`, early-tag duplicates of
+already-tracked stores) were also excluded as onboarding artifacts,
+same pattern as the KK 90d dashboard's exclusion list.
 
 Category is a simplified 2-way split for v1, pending the real Curefoods-
 owned vs. franchise ownership split (which Pune has as Cfi/Rebel/Offline
@@ -75,12 +89,7 @@ STORE_ROSTER = [
     {"up_name": "DEL KK Omaxe Chandni Chowk", "pos_name": "DEL KK Omaxe Chandni Chowk Pos", "display_name": "Omaxe Chandni Chowk", "category": "Offline"},
     {"up_name": "DEL KK Pacific Tagore Garden Mall", "pos_name": "DEL KK Pacific Tagore Garden Mall Pos", "display_name": "Pacific Tagore Garden Mall", "category": "Offline"},
     {"up_name": "NOI KK GIP Mall Pos", "pos_name": "NOI KK GIP Mall Pos", "display_name": "GIP Mall", "category": "Offline"},
-    {"up_name": "DEL KK Rajouri Garden Online", "pos_name": None, "display_name": "Rajouri Garden", "category": "Online"},
-    {"up_name": "DEL KK Okhla Kitchen Online", "pos_name": None, "display_name": "Okhla Kitchen", "category": "Online"},
     {"up_name": "DEL KK Karol Bagh Online", "pos_name": "DEL KK Blue Pearl Mall (Karol Bagh) POS", "display_name": "Karol Bagh", "category": "Offline"},
-    {"up_name": "DEL KK Golf Course Online", "pos_name": None, "display_name": "Golf Course", "category": "Online"},
-    {"up_name": "GZB KK Indirapuram Online", "pos_name": None, "display_name": "Indirapuram", "category": "Online"},
-    {"up_name": "NOI KK Sector 73 Online", "pos_name": None, "display_name": "Sector 73", "category": "Online"},
 ]
 
 
